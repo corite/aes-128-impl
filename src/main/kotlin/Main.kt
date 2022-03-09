@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUnsignedTypes::class)
+
 import java.io.File
 val filePrefix = "src"+File.separator+"main"+File.separator+"resources"+File.separator
 
@@ -19,7 +21,7 @@ fun main() {
     prettyPrintII("Example 1 only first 20 bytes",getAsLongArray(texts1).copyOfRange(0,20),keys1[0])
 }
 
-fun prettyPrintI(title:String, texts:Array<IntArray>, keys:Array<IntArray>) {
+fun prettyPrintI(title:String, texts:Array<UByteArray>, keys:Array<UByteArray>) {
     val encHandler = EncryptionHandler()
     val decHandler = DecryptionHandler()
     println()
@@ -35,7 +37,7 @@ fun prettyPrintI(title:String, texts:Array<IntArray>, keys:Array<IntArray>) {
     }
 }
 
-fun prettyPrintII(title:String, text:IntArray, key:IntArray) {
+fun prettyPrintII(title:String, text:UByteArray, key:UByteArray) {
     val encHandler = EncryptionHandler()
     val decHandler = DecryptionHandler()
     println()
@@ -49,17 +51,17 @@ fun prettyPrintII(title:String, text:IntArray, key:IntArray) {
     println("decrypted : ${decrypted.joinToString(" ") { it.toString(16) }}")
 }
 
-fun getExample(file:String):Array<IntArray>{
+fun getExample(file:String):Array<UByteArray>{
     val lines = File(file).readLines(Charsets.US_ASCII)
-    val lineArray:Array<IntArray> = Array(lines.size){ IntArray(16) }
+    val lineArray:Array<UByteArray> = Array(lines.size){ UByteArray(16) }
     for (i in lines.indices) {
-        lineArray[i] = lines[i].split(" ").map { it.toInt(16) }.toIntArray()
+        lineArray[i] = lines[i].split(" ").map { it.toUByte(16) }.toUByteArray()
     }
     return lineArray
 }
 
-fun getAsLongArray(matrix: Array<IntArray>):IntArray {
-    var arr = intArrayOf()
+fun getAsLongArray(matrix: Array<UByteArray>):UByteArray {
+    var arr = ubyteArrayOf()
 
     for (row in matrix) {
         arr += row
